@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: webpa_app
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      - APP_WWW=${APP_WWW}
+      - DOC_ROOT=${DOC_ROOT}
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PREFIX=${DB_PREFIX}
+      - CUSTOM_CSS_PATH=${CUSTOM_CSS_PATH}
+      - SESSION_NAME=${SESSION_NAME}
+      - ACADEMIC_YEAR_START_MONTH=${ACADEMIC_YEAR_START_MONTH}
+      - HELP_EMAIL=${HELP_EMAIL}
+      - NO_REPLY_EMAIL=${NO_REPLY_EMAIL}
+      - LOGO_PATH=${LOGO_PATH}
+      - LOGO_ALT_TEXT=${LOGO_ALT_TEXT}
+      - LOGO_HEIGHT=${LOGO_HEIGHT}
+      - LOGO_WIDTH=${LOGO_WIDTH}
+      - ALLOW_TEXT_INPUT=${ALLOW_TEXT_INPUT}
+      - ENABLE_USER_DELETE=${ENABLE_USER_DELETE}
+      - ENABLE_MODULE_DELETE=${ENABLE_MODULE_DELETE}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
+      - ENABLE_MOODLE_GRADEBOOK=${ENABLE_MOODLE_GRADEBOOK}
+      - SEND_OPENING_REMINDER=${SEND_OPENING_REMINDER}
+      - SEND_CLOSING_REMINDER=${SEND_CLOSING_REMINDER}
+      - MARK_TERMINOLOGY=${MARK_TERMINOLOGY}
+    volumes:
+      - /Volumes/My-Data/projects/chin/WebPA:/var/www/webpa
+    networks:
+      - webpa_network
+
+  db:
+    image: mariadb:latest
+    container_name: webpa_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - webpa_network
+
+volumes:
+  db_data:
+
+
+networks:
+  webpa_network:
+    driver: bridge
