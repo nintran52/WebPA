@@ -37,7 +37,7 @@ services:
       - SEND_CLOSING_REMINDER=${SEND_CLOSING_REMINDER}
       - MARK_TERMINOLOGY=${MARK_TERMINOLOGY}
     volumes:
-      - /Volumes/My-Data/projects/chin/WebPA:/var/www/webpa
+      - webpa:/var/www/webpa
     networks:
       - webpa_network
 
@@ -58,6 +58,7 @@ services:
       - webpa_network
 
 volumes:
+  webpa:
   db_data:
 
 
